@@ -1,4 +1,4 @@
-package com.sahu.springboot.security.rest;
+package com.sahu.springboot.security.controller.rest;
 
 import com.sahu.springboot.security.dto.*;
 import com.sahu.springboot.security.model.User;

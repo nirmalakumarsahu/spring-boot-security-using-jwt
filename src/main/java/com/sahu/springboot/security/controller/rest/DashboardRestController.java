@@ -1,4 +1,4 @@
-package com.sahu.springboot.security.rest;
+package com.sahu.springboot.security.controller.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
