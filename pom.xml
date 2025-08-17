@@ -15,11 +15,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-security-using-jwt</name>
     <description>spring-boot-security-using-jwt</description>
+    <url>https://example.comm</url>
 
     <properties>
         <java.version>21</java.version>
     </properties>
-
 
     <dependencies>
         <dependency>
