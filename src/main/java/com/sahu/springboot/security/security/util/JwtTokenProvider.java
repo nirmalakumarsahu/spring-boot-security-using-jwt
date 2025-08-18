@@ -33,11 +33,9 @@ public class JwtTokenProvider {
                 secret != null ? secret.length() : 0);
     }
 
-    public String generateToken() {
-        CustomUserDetails customUserDetails = SecurityUtil.getCurrentUser();
-
+    public String generateToken(String username) {
         //Claim you can add if you want to add more information in the token
-        return Jwts.builder().subject(customUserDetails.getUsername())
+        return Jwts.builder().subject(username)
                 //.claims(claims)
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(Date.from(Instant.now().plusMillis(expiration)))

@@ -3,7 +3,9 @@ package com.sahu.springboot.security.controller.rest;
 import com.sahu.springboot.security.constant.AuthConstants;
 import com.sahu.springboot.security.dto.*;
 import com.sahu.springboot.security.model.User;
+import com.sahu.springboot.security.security.dto.CustomUserDetails;
 import com.sahu.springboot.security.security.util.JwtTokenProvider;
+import com.sahu.springboot.security.security.util.SecurityUtil;
 import com.sahu.springboot.security.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +41,8 @@ public class AuthRestController {
         if (authentication.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String token = jwtTokenProvider.generateToken();
+            CustomUserDetails customUserDetails = SecurityUtil.getCurrentUser();
+            String token = jwtTokenProvider.generateToken(customUserDetails.getUsername());
 
             return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "User Login Successfully",
                     LoginResponse.builder()
