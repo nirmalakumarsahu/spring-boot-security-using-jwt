@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 
 @Setter
@@ -38,8 +39,8 @@ public class JwtTokenProvider {
         //Claim you can add if you want to add more information in the token
         return Jwts.builder().subject(customUserDetails.getUsername())
                 //.claims(claims)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .issuedAt(Date.from(Instant.now()))
+                .expiration(Date.from(Instant.now().plusMillis(expiration)))
                 .signWith(key())
                 .compact();
     }
