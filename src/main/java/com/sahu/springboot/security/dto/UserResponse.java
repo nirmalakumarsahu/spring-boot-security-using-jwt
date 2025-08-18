@@ -3,7 +3,7 @@ package com.sahu.springboot.security.dto;
 import lombok.Builder;
 
 @Builder
-public record UserResponseDTO(
+public record UserResponse(
         Long userId,
         String username,
         String email

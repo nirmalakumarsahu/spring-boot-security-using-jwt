@@ -1,7 +1,7 @@
 package com.sahu.springboot.security.service.impl;
 
 import com.sahu.springboot.security.constant.AuthConstants;
-import com.sahu.springboot.security.dto.UserRequestDTO;
+import com.sahu.springboot.security.dto.UserRequest;
 import com.sahu.springboot.security.model.User;
 import com.sahu.springboot.security.repository.RoleRepository;
 import com.sahu.springboot.security.repository.UserRepository;
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(UserRequestDTO userRequestDTO) {
+    public User addUser(UserRequest userRequestDTO) {
         User user = new User();
         BeanUtils.copyProperties(userRequestDTO, user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

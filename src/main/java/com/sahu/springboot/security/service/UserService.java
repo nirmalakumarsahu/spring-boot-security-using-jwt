@@ -1,6 +1,6 @@
 package com.sahu.springboot.security.service;
 
-import com.sahu.springboot.security.dto.UserRequestDTO;
+import com.sahu.springboot.security.dto.UserRequest;
 import com.sahu.springboot.security.model.User;
 
 public interface UserService {
@@ -8,5 +8,5 @@ public interface UserService {
 
     boolean existsByEmail(String email);
 
-    User addUser(UserRequestDTO userRequestDTO);
+    User addUser(UserRequest userRequestDTO);
 }

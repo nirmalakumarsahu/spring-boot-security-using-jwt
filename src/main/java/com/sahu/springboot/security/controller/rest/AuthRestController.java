@@ -32,7 +32,7 @@ public class AuthRestController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<LoginResponseDTO>> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequestDTO, HttpServletRequest httpServletRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDTO.username(), loginRequestDTO.password()));
 
@@ -42,7 +42,7 @@ public class AuthRestController {
             String token = jwtTokenProvider.generateToken();
 
             return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "User Login Successfully",
-                    LoginResponseDTO.builder()
+                    LoginResponse.builder()
                             .token(token)
                             .expirationDate(jwtTokenProvider.getExpirationDate(token))
                             .tokenType(AuthConstants.TOKEN_TYPE_BEARER)
@@ -56,7 +56,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequestDTO userRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequestDTO, HttpServletRequest request) {
         log.debug("Registration process started for user: {}", userRequestDTO.username());
 
         //Check if the user already exists
@@ -76,7 +76,7 @@ public class AuthRestController {
         User user = userService.addUser(userRequestDTO);
         if (Objects.nonNull(user)) {
             return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED, "Registration successful!",
-                    UserResponseDTO.builder()
+                    UserResponse.builder()
                             .userId(user.getId())
                             .username(user.getUsername())
                             .email(user.getEmail())
