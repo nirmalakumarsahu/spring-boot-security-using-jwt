@@ -28,14 +28,14 @@ public class JwtTokenProvider {
 
     @PostConstruct
     public void init() {
-        log.info("JWT Secret: {}, Expiration: {}", secret, expiration);
+        log.info("JWT initialized. Expiration: {} ms, Secret length: {}", expiration,
+                secret != null ? secret.length() : 0);
     }
 
     public String generateToken() {
         CustomUserDetails customUserDetails = SecurityUtil.getCurrentUser();
 
         //Claim you can add if you want to add more information in the token
-        //Map<String, Object> claims = new HashMap<>();
         return Jwts.builder().subject(customUserDetails.getUsername())
                 //.claims(claims)
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -50,7 +50,11 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().verifyWith((SecretKey) key()).build().parse(token);
+            Jwts.parser()
+                    //.clockSkewSeconds(60) // Allow a 60 seconds clock skew
+                    .verifyWith((SecretKey) key())
+                    .build()
+                    .parseSignedClaims(token);
             return true;
         } catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());
