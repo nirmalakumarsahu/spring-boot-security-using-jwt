@@ -59,20 +59,20 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequest, HttpServletRequest httpServletRequest) {
         log.debug("Registration process started for user: {}", userRequest.username());
 
         //Check if the user already exists
         if (userService.existsByUsername(userRequest.username())) {
             return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Username already exists",
                     null,
-                    request.getRequestURI()));
+                    httpServletRequest.getRequestURI()));
         }
 
         if (userService.existsByEmail(userRequest.email())) {
             return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Email already exists",
                     null,
-                    request.getRequestURI()));
+                    httpServletRequest.getRequestURI()));
         }
 
         //Add the user
@@ -84,13 +84,13 @@ public class AuthRestController {
                             .username(user.getUsername())
                             .email(user.getEmail())
                             .build(),
-                    request.getRequestURI()));
+                    httpServletRequest.getRequestURI()));
 
         }
 
         return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.BAD_REQUEST, "Registration failed. Please try again.",
                 null,
-                request.getRequestURI()));
+                httpServletRequest.getRequestURI()));
     }
 
 }
