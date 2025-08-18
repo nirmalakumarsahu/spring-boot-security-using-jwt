@@ -46,4 +46,4 @@ springdoc:
 app:
   jwt:
     secret: deba6b550076b041d6c93eba23f0c1a27f2a49399d3e59d8541d8f271cbf4617
-    expiration: 3600 # in seconds
+    expiration: 60000 #milliseconds (1 min)
