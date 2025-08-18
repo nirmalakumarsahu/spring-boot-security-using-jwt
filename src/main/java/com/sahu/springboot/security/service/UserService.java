@@ -8,5 +8,5 @@ public interface UserService {
 
     boolean existsByEmail(String email);
 
-    User addUser(UserRequest userRequestDTO);
+    User addUser(UserRequest userRequest);
 }

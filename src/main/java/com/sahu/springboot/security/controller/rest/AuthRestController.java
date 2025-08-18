@@ -32,9 +32,9 @@ public class AuthRestController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequestDTO, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest, HttpServletRequest httpServletRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequestDTO.username(), loginRequestDTO.password()));
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
         if (authentication.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -56,24 +56,24 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequestDTO, HttpServletRequest request) {
-        log.debug("Registration process started for user: {}", userRequestDTO.username());
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequest, HttpServletRequest request) {
+        log.debug("Registration process started for user: {}", userRequest.username());
 
         //Check if the user already exists
-        if (userService.existsByUsername(userRequestDTO.username())) {
+        if (userService.existsByUsername(userRequest.username())) {
             return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Username already exists",
                     null,
                     request.getRequestURI()));
         }
 
-        if (userService.existsByEmail(userRequestDTO.email())) {
+        if (userService.existsByEmail(userRequest.email())) {
             return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Email already exists",
                     null,
                     request.getRequestURI()));
         }
 
         //Add the user
-        User user = userService.addUser(userRequestDTO);
+        User user = userService.addUser(userRequest);
         if (Objects.nonNull(user)) {
             return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED, "Registration successful!",
                     UserResponse.builder()

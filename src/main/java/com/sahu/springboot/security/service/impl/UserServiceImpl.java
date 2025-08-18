@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(UserRequest userRequestDTO) {
+    public User addUser(UserRequest userRequest) {
         User user = new User();
-        BeanUtils.copyProperties(userRequestDTO, user);
+        BeanUtils.copyProperties(userRequest, user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Set.of(roleRepository.findByName(AuthConstants.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Role not found: USER"))));
