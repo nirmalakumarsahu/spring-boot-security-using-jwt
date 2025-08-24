@@ -19,4 +19,8 @@ public class AuthConstants {
 
     public final String HEADER_AUTHORIZATION = "Authorization";
     public final String TOKEN_TYPE_BEARER = "Bearer ";
+
+    public final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**", "/swagger-ui/**", "/documentation/**", "/api-docs/**"
+    };
 }
