@@ -7,7 +7,6 @@ import com.sahu.springboot.security.security.dto.CustomUserDetails;
 import com.sahu.springboot.security.security.util.JwtTokenProvider;
 import com.sahu.springboot.security.security.util.SecurityUtil;
 import com.sahu.springboot.security.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -59,7 +58,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequest, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequest) {
         log.debug("Registration process started for user: {}", userRequest.username());
 
         //Check if the user already exists
