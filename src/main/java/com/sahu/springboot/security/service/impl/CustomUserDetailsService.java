@@ -29,8 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findByUsername(username).map(user -> {
 
             List<String> userRoles = user.getRoles().stream().map(Role::getName).toList();
-            List<GrantedAuthority> authorities = userRoles.stream().map(role -> new SimpleGrantedAuthority(AuthConstants.ROLE_PREFIX + role))
-                    .collect(Collectors.toList());
+            List<GrantedAuthority> authorities = userRoles.stream().map(role ->
+                            new SimpleGrantedAuthority(AuthConstants.ROLE_PREFIX + role)).collect(Collectors.toList());
 
             return new CustomUserDetails(user.getUsername(), user.getPassword(), authorities, user.getId(), user.getEmail(), userRoles);
         }).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));

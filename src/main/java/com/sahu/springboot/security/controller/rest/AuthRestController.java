@@ -34,7 +34,7 @@ public class AuthRestController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
@@ -49,13 +49,13 @@ public class AuthRestController {
                             .token(token)
                             .expirationDate(jwtTokenProvider.getExpirationDate(token))
                             .tokenType(AuthConstants.TOKEN_TYPE_BEARER)
-                            .build(),
-                    httpServletRequest.getRequestURI()));
+                            .build())
+            );
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.failure(HttpStatus.UNAUTHORIZED, "Invalid username or password",
-                null,
-                httpServletRequest.getRequestURI()));
+                null)
+        );
     }
 
     @PostMapping("/register")
@@ -65,14 +65,14 @@ public class AuthRestController {
         //Check if the user already exists
         if (userService.existsByUsername(userRequest.username())) {
             return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Username already exists",
-                    null,
-                    httpServletRequest.getRequestURI()));
+                    null)
+            );
         }
 
         if (userService.existsByEmail(userRequest.email())) {
             return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Email already exists",
-                    null,
-                    httpServletRequest.getRequestURI()));
+                    null)
+            );
         }
 
         //Add the user
@@ -83,14 +83,13 @@ public class AuthRestController {
                             .userId(user.getId())
                             .username(user.getUsername())
                             .email(user.getEmail())
-                            .build(),
-                    httpServletRequest.getRequestURI()));
-
+                            .build())
+            );
         }
 
         return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.BAD_REQUEST, "Registration failed. Please try again.",
-                null,
-                httpServletRequest.getRequestURI()));
+                null)
+        );
     }
 
 }
