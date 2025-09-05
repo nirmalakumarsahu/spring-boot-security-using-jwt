@@ -43,52 +43,48 @@ public class AuthRestController {
             CustomUserDetails customUserDetails = SecurityUtil.getCurrentUser();
             String token = jwtTokenProvider.generateToken(customUserDetails.getUsername());
 
-            return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "User Login Successfully",
+            return ApiResponse.success(HttpStatus.OK, "User Login Successfully",
                     LoginResponse.builder()
                             .token(token)
                             .expirationDate(jwtTokenProvider.getExpirationDate(token))
                             .tokenType(AuthConstants.TOKEN_TYPE_BEARER)
-                            .build())
+                            .build()
             );
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.failure(HttpStatus.UNAUTHORIZED, "Invalid username or password",
-                null)
-        );
+        return ApiResponse.failure(HttpStatus.UNAUTHORIZED, "Invalid username or password",
+                null);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<ApiResponse<UserResponse>> register(@RequestBody UserRequest userRequest) {
         log.debug("Registration process started for user: {}", userRequest.username());
 
         //Check if the user already exists
         if (userService.existsByUsername(userRequest.username())) {
-            return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Username already exists",
-                    null)
-            );
+            return ApiResponse.failure(HttpStatus.CONFLICT, "Username already exists",
+                    null);
         }
 
         if (userService.existsByEmail(userRequest.email())) {
-            return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.CONFLICT, "Email already exists",
-                    null)
-            );
+            return ApiResponse.failure(HttpStatus.CONFLICT, "Email already exists",
+                    null);
         }
 
         //Add the user
         User user = userService.addUser(userRequest);
         if (Objects.nonNull(user)) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED, "Registration successful!",
+            return ApiResponse.success(HttpStatus.CREATED, "Registration successful!",
                     UserResponse.builder()
                             .userId(user.getId())
                             .username(user.getUsername())
                             .email(user.getEmail())
-                            .build())
+                            .build()
             );
         }
 
-        return ResponseEntity.badRequest().body(ApiResponse.failure(HttpStatus.BAD_REQUEST, "Registration failed. Please try again.",
-                null)
-        );
+        return ApiResponse.failure(HttpStatus.BAD_REQUEST, "Registration failed. Please try again.",
+                null);
     }
 
 }
