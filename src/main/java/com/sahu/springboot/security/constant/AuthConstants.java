@@ -13,10 +13,6 @@ public class AuthConstants {
     public final String ROLE_ADMIN = "ADMIN";
     public final String ROLE_PREFIX = "ROLE_";
 
-    public final String STATUS_SUCCESS = "success";
-    public final String STATUS_FAILURE = "failure";
-    public final String STATUS_ERROR = "error";
-
     public final String HEADER_AUTHORIZATION = "Authorization";
     public final String TOKEN_TYPE_BEARER = "Bearer ";
 
