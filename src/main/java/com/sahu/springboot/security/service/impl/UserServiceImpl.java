@@ -2,6 +2,7 @@ package com.sahu.springboot.security.service.impl;
 
 import com.sahu.springboot.security.constant.AuthConstants;
 import com.sahu.springboot.security.dto.UserRequest;
+import com.sahu.springboot.security.dto.UserResponse;
 import com.sahu.springboot.security.model.User;
 import com.sahu.springboot.security.repository.RoleRepository;
 import com.sahu.springboot.security.repository.UserRepository;
@@ -32,14 +33,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(UserRequest userRequest) {
+    public UserResponse createUser(UserRequest userRequest) {
         User user = new User();
         BeanUtils.copyProperties(userRequest, user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Set.of(roleRepository.findByName(AuthConstants.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Role not found: USER"))));
         user.setIsActive(true);
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .build();
     }
 
 }
