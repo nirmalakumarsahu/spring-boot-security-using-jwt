@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: spring-boot-security-using-jwt
+    name: spring-boot-security-jwt-authentication
 
   #MySQL Configuration
   datasource:

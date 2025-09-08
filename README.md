@@ -1,2 +1,2 @@
-# spring-boot-security-using-jwt
-spring-boot-security-using-jwt
+# spring-boot-security-jwt-authentication
+spring-boot-security-jwt-authentication

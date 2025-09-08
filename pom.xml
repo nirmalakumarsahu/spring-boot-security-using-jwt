@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.sahu.spring-boot-security</groupId>
-    <artifactId>spring-boot-security-using-jwt</artifactId>
+    <artifactId>spring-boot-security-jwt-authentication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-security-using-jwt</name>
-    <description>spring-boot-security-using-jwt</description>
+    <name>spring-boot-security-jwt-authentication</name>
+    <description>spring-boot-security-jwt-authentication</description>
     <url>https://example.comm</url>
 
     <properties>
